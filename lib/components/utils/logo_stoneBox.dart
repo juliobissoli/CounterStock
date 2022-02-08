@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+
 class LogoStineBox extends StatelessWidget {
   final double? size;
 
@@ -11,11 +13,10 @@ class LogoStineBox extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: Color(0xff1D1D1B),
+        color: Color(0xffffffff),
         borderRadius: BorderRadius.circular(20),
         image: DecorationImage(
-            image: AssetImage('assets/Images/logo1024x1024.png'),
-            fit: BoxFit.cover),
+            image: Svg('assets/Images/Logo_CS.svg'), fit: BoxFit.cover),
       ),
     );
   }

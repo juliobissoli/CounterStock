@@ -1,0 +1,17 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="1024" height="1024" rx="100" fill="white"/>
+<line x1="103" y1="103" x2="103" y2="297" stroke="black" stroke-width="30" stroke-linecap="round"/>
+<line x1="103" y1="99.1479" x2="297" y2="99.1479" stroke="black" stroke-width="30" stroke-linecap="round"/>
+<line x1="921" y1="921" x2="921" y2="727" stroke="black" stroke-width="30" stroke-linecap="round"/>
+<line x1="921" y1="924.852" x2="727" y2="924.852" stroke="black" stroke-width="30" stroke-linecap="round"/>
+<line x1="103" y1="921" x2="297" y2="921" stroke="black" stroke-width="30" stroke-linecap="round"/>
+<line x1="99.1479" y1="921" x2="99.1479" y2="727" stroke="black" stroke-width="30" stroke-linecap="round"/>
+<line x1="921" y1="103" x2="727" y2="103" stroke="black" stroke-width="30" stroke-linecap="round"/>
+<line x1="924.852" y1="103" x2="924.852" y2="297" stroke="black" stroke-width="30" stroke-linecap="round"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M249 353C193.772 353 149 397.772 149 453V570C149 625.228 193.771 670 249 670H388.649C429.437 670 464.522 645.58 480.08 610.562H225.421V412.438H480.08C464.522 377.42 429.438 353 388.649 353H249Z" fill="black"/>
+<path d="M526.011 416.4C526.011 385.762 550.848 360.925 581.486 360.925H819.525C850.163 360.925 875 385.762 875 416.4V416.4H526.011V416.4Z" fill="black"/>
+<path d="M585.449 539.237C552.622 539.237 526.011 512.626 526.011 479.799V420.364C526.011 387.537 552.622 360.925 585.449 360.925V360.925V539.237V539.237Z" fill="black"/>
+<path d="M875 607.392C875 638.03 850.163 662.867 819.525 662.867H581.486C550.848 662.867 526.011 638.03 526.011 607.392V607.392H875V607.392Z" fill="black"/>
+<path d="M526.011 484.555L819.525 484.555C850.163 484.555 875 509.392 875 540.03V540.03L581.486 540.03C550.848 540.03 526.011 515.193 526.011 484.555V484.555Z" fill="black"/>
+<path d="M815.561 484.555C848.388 484.555 875 511.167 875 543.994V603.429C875 636.256 848.388 662.867 815.561 662.867V662.867V484.555V484.555Z" fill="black"/>
+</svg>

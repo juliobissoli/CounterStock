@@ -80,6 +80,16 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
+      bottomNavigationBar: Container(
+        child: Text(
+          'Powered by\nMotora.ai',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 12,
+            color: Colors.grey,
+          ),
+        ),
+      ),
     );
   }
 
@@ -103,8 +113,7 @@ class _LoginPageState extends State<LoginPage> {
     if (email == "admin@admin.com") {
       handleLoading(true);
       Navigator.of(context).pushReplacementNamed('/');
-    }
-    else {
+    } else {
       handleLoading(false);
       _showAlert();
     }

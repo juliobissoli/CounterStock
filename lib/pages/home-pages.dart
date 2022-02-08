@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../components/home/products-list-viewe.dart';
-import '../components/home/scaner-viewe.dart';
+import '../components/home/scaner_viewe.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({ Key? key }) : super(key: key);

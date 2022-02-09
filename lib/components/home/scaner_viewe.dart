@@ -17,6 +17,8 @@ class _ScanerVieweState extends State<ScanerViewe> {
   Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  double _n = 0.0;
+  final _controlarquant = TextEditingController();
 
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
@@ -37,9 +39,11 @@ class _ScanerVieweState extends State<ScanerViewe> {
         _buildQrView(context),
         Center(
             child: FloatingActionButton(
-                child: Text("Texte"),
-                onPressed: (){ _handleShowProductDetail(context);},
-                )),
+          child: Text("Scan"),
+          onPressed: () {
+            _handleShowProductDetail(context);
+          },
+        )),
       ],
     ));
   }
@@ -73,12 +77,57 @@ class _ScanerVieweState extends State<ScanerViewe> {
       backgroundColor: Colors.transparent,
       builder: (BuildContext builder) {
         return Modal(
-            size_height: 350.0, show_top: true, child: const Text('casa', style: TextStyle(color: Colors.white),));
+            size_height: 350.0,
+            show_top: true,
+            child: Column(
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    new FloatingActionButton(
+                      onPressed: () {
+                        _n++;
+                      },
+                      child: new Icon(
+                        Icons.add,
+                        color: Colors.black,
+                      ),
+                      backgroundColor: Colors.white,
+                    ),
+                    SizedBox(
+                      width: 150.0,
+                      child: TextField(
+                        decoration: new InputDecoration(
+                            labelText: "$_n",
+                            border: OutlineInputBorder(),
+                            labelStyle: TextStyle(color: Colors.white)),
+                        keyboardType: TextInputType.number,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    new FloatingActionButton(
+                      onPressed: () {
+                        _n--;
+                      },
+                      child: new Icon(Icons.remove, color: Colors.black),
+                      backgroundColor: Colors.white,
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: ElevatedButton(
+                    child: const Text('Atualizar'),
+                    onPressed: () {},
+                  ),
+                ),
+              ],
+            ));
       },
     );
   }
 
-  void _onQRViewCreated(QRViewController controller ) {
+  void _onQRViewCreated(QRViewController controller) {
     setState(() {
       this.controller = controller;
     });

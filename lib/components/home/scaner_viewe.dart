@@ -17,19 +17,14 @@ class _ScanerVieweState extends State<ScanerViewe> {
   Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  double _n = 0.0;
-  final _controlarquant = TextEditingController();
+  double _n = 1.0;
+  TextEditingController _controlarquant = TextEditingController();
+  void initState() {
+    this._controlarquant.text = _n.toString();
+  }
 
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
-  @override
-  void reassemble() {
-    super.reassemble();
-    if (Platform.isAndroid) {
-      controller!.pauseCamera();
-    }
-    controller!.resumeCamera();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +82,8 @@ class _ScanerVieweState extends State<ScanerViewe> {
                     new FloatingActionButton(
                       onPressed: () {
                         _n++;
+                        controller:
+                        _controlarquant.text = _n.toString();
                       },
                       child: new Icon(
                         Icons.add,
@@ -97,6 +94,7 @@ class _ScanerVieweState extends State<ScanerViewe> {
                     SizedBox(
                       width: 150.0,
                       child: TextField(
+                        controller: _controlarquant,
                         decoration: new InputDecoration(
                             labelText: "$_n",
                             border: OutlineInputBorder(),
@@ -108,6 +106,7 @@ class _ScanerVieweState extends State<ScanerViewe> {
                     new FloatingActionButton(
                       onPressed: () {
                         _n--;
+                        _controlarquant.text = _n.toString();
                       },
                       child: new Icon(Icons.remove, color: Colors.black),
                       backgroundColor: Colors.white,
@@ -132,10 +131,12 @@ class _ScanerVieweState extends State<ScanerViewe> {
       this.controller = controller;
     });
     controller.scannedDataStream.listen((scanData) {
-      _handleShowProductDetail(context);
-      setState(() {
-        result = scanData;
-      });
+      if (result == null) {
+        _handleShowProductDetail(context);
+        setState(() {
+          result = scanData;
+        });
+      }
     });
   }
 

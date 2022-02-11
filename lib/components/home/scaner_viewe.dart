@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import '../utils/modal.dart';
 import '../../core/controller/stock_controller.dart';
+
 class ScanerViewe extends StatefulWidget {
   const ScanerViewe({Key? key}) : super(key: key);
 
@@ -13,8 +14,9 @@ class ScanerViewe extends StatefulWidget {
 }
 
 class _ScanerVieweState extends State<ScanerViewe> {
-  StockController stock_controller =  StockController();
+  StockController stock_controller = StockController();
   Barcode? result;
+  String? qr_data = '';
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   double _n = 1.0;
@@ -79,31 +81,33 @@ class _ScanerVieweState extends State<ScanerViewe> {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text("product info", 
+                  child: Text(
+                    qr_data ?? '',
                     textAlign: TextAlign.left,
-                    style: TextStyle(color: Colors.white, fontSize: 22),),
+                    style: TextStyle(color: Colors.white, fontSize: 22),
+                  ),
                 ),
                 SizedBox(
                   width: 200.0,
                   height: 50.0,
-              //     child: Padding(
-              //       padding: const EdgeInsets.all(8.0),
-              //     child: ToggleButtons(
-              //     children: <Widget>[
-              //       Icon(Icons.ac_unit),
-              //       Icon(Icons.call),
-              //       Icon(Icons.cake),
-              //     ],
-              //     onPressed: (int index) {
-              //       setState(() {
-              //         if(index == 0) mode_view = [true, false];
-              //         else mode_view = [true, false];
-              //         // mode_view[index] = !mode_view[index];
-              //       });
-              //     },
-              //     isSelected: mode_view,
-              // ),
-              //     ),
+                  //     child: Padding(
+                  //       padding: const EdgeInsets.all(8.0),
+                  //     child: ToggleButtons(
+                  //     children: <Widget>[
+                  //       Icon(Icons.ac_unit),
+                  //       Icon(Icons.call),
+                  //       Icon(Icons.cake),
+                  //     ],
+                  //     onPressed: (int index) {
+                  //       setState(() {
+                  //         if(index == 0) mode_view = [true, false];
+                  //         else mode_view = [true, false];
+                  //         // mode_view[index] = !mode_view[index];
+                  //       });
+                  //     },
+                  //     isSelected: mode_view,
+                  // ),
+                  //     ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -126,12 +130,11 @@ class _ScanerVieweState extends State<ScanerViewe> {
                         controller: _controlarquant,
                         decoration: new InputDecoration(
                             border: OutlineInputBorder(),
-                            labelStyle: TextStyle(color: Colors.white )),
+                            labelStyle: TextStyle(color: Colors.white)),
                         keyboardType: TextInputType.number,
                         style: TextStyle(color: Colors.white, fontSize: 42.0),
-                         textAlign: TextAlign.center,
+                        textAlign: TextAlign.center,
                       ),
-                      
                     ),
                     new FloatingActionButton(
                       onPressed: () {
@@ -144,20 +147,21 @@ class _ScanerVieweState extends State<ScanerViewe> {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: BtnDefault(
+                    padding: const EdgeInsets.all(16.0),
+                    child: BtnDefault(
                       mode: 'light',
-                      func: (){
-                        this.stock_controller.handleChangeQuantity(_n, "123312@parafiso cabeça chata@m");
+                      func: () {
+                        this.stock_controller.handleChangeQuantity(
+                            _n, "123312@parafiso cabeça chata@m");
                       },
                       label: 'Atualizar',
-                      )
-                    
-                  // ElevatedButton(
-                  //   child: const Text('Atualizar'),
-                  //   onPressed: () {},
-                  // ),
-                ),
+                    )
+
+                    // ElevatedButton(
+                    //   child: const Text('Atualizar'),
+                    //   onPressed: () {},
+                    // ),
+                    ),
               ],
             ));
       },
@@ -173,6 +177,7 @@ class _ScanerVieweState extends State<ScanerViewe> {
         _handleShowProductDetail(context);
         setState(() {
           result = scanData;
+          qr_data = result?.code;
         });
       }
     });

@@ -81,6 +81,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
       bottomNavigationBar: Container(
+        padding: const EdgeInsets.all(8.0),
         child: Text(
           'Powered by\nMotora.ai',
           textAlign: TextAlign.center,

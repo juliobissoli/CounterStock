@@ -82,7 +82,8 @@ class _ScanerVieweState extends State<ScanerViewe> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    qr_data ?? '',
+                    //qr_data ?? '',
+                    _separanome(qr_data!),
                     textAlign: TextAlign.left,
                     style: TextStyle(color: Colors.white, fontSize: 22),
                   ),
@@ -134,6 +135,10 @@ class _ScanerVieweState extends State<ScanerViewe> {
                         keyboardType: TextInputType.number,
                         style: TextStyle(color: Colors.white, fontSize: 42.0),
                         textAlign: TextAlign.center,
+                        textInputAction: TextInputAction.done,
+                        onSubmitted: (ValueKey) {
+                          _n = double.parse(_controlarquant.text);
+                        },
                       ),
                     ),
                     new FloatingActionButton(
@@ -147,12 +152,22 @@ class _ScanerVieweState extends State<ScanerViewe> {
                   ],
                 ),
                 Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    _separatudo(qr_data!),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white, fontSize: 22),
+                  ),
+                ),
+                Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: BtnDefault(
                       mode: 'light',
                       func: () {
-                        this.stock_controller.handleChangeQuantity(
-                            _n, "123312@parafiso cabeça chata@m");
+                        this
+                            .stock_controller
+                            .handleChangeQuantity(_n, qr_data!);
+                        Navigator.pop(context);
                       },
                       label: 'Atualizar',
                     )
@@ -197,4 +212,16 @@ class _ScanerVieweState extends State<ScanerViewe> {
     controller?.dispose();
     super.dispose();
   }
+}
+
+String _separatudo(String data) {
+  final List<String> listalouca = data.split('@');
+  String resultadolista = listalouca[2];
+  return resultadolista;
+}
+
+String _separanome(String data) {
+  final List<String> listalouca = data.split('@');
+  String resultadolista = listalouca[1];
+  return resultadolista;
 }

@@ -32,18 +32,19 @@ class _ScanerVieweState extends State<ScanerViewe> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-      children: [
-        _buildQrView(context),
-        Center(
-            child: FloatingActionButton(
-          child: Text("Scan"),
-          onPressed: () {
-            _handleShowProductDetail(context);
-          },
-        )),
-      ],
-    ));
+      body: Stack(
+        children: [
+          _buildQrView(context),
+          Center(
+              child: FloatingActionButton(
+            child: Text("Scan"),
+            onPressed: () {
+              _handleShowProductDetail(context);
+            },
+          )),
+        ],
+      ),
+    );
   }
 
   Widget _buildQrView(BuildContext context) {
@@ -115,7 +116,11 @@ class _ScanerVieweState extends State<ScanerViewe> {
                   children: [
                     new FloatingActionButton(
                       onPressed: () {
-                        _n++;
+                        if (_separatudo(qr_data!) == 'i') {
+                          _n++;
+                        } else {
+                          _n += 0.1;
+                        }
                         controller:
                         _controlarquant.text = _n.toString();
                       },
@@ -143,7 +148,11 @@ class _ScanerVieweState extends State<ScanerViewe> {
                     ),
                     new FloatingActionButton(
                       onPressed: () {
-                        _n--;
+                        if (_separatudo(qr_data!) == 'i') {
+                          _n--;
+                        } else {
+                          _n -= 0.1;
+                        }
                         _controlarquant.text = _n.toString();
                       },
                       child: new Icon(Icons.remove, color: Colors.black),
@@ -163,18 +172,22 @@ class _ScanerVieweState extends State<ScanerViewe> {
                     padding: const EdgeInsets.all(16.0),
                     child: BtnDefault(
                       mode: 'light',
-                      func: () {
-                        this
+                      func: () async {
+                        var res = await this
                             .stock_controller
                             .handleChangeQuantity(_n, qr_data!);
+
                         Navigator.pop(context);
                       },
                       label: 'Atualizar',
                     )
 
-                    // ElevatedButton(
+                    // childe: ElevatedButton(
                     //   child: const Text('Atualizar'),
-                    //   onPressed: () {},
+                    //   onPressed: () {this
+                    //     .stock_controller
+                    //     .handleChangeQuantity(_n, qr_data!);
+                    // Navigator.pop(context);},
                     // ),
                     ),
               ],

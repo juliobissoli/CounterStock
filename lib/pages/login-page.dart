@@ -55,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: 116),
                 SizedBox(height: 16),
                 InputPrimary(
-                  label: "Email",
+                  label: "Nome",
                   type_input: TextInputType.emailAddress,
                   capitalization: TextCapitalization.none,
                   controller_input: controller_email,
@@ -111,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
     //   _showAlert();
     // }
     print(email);
-    if (email == "admin@admin.com") {
+    if (pass == "Motora8989") {
       handleLoading(true);
       Navigator.of(context).pushReplacementNamed('/');
     } else {

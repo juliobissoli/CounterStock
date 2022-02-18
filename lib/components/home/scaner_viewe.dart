@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import '../utils/modal.dart';
 import '../../core/controller/stock_controller.dart';
+//import '../../pages/login-page.dart';
 
 class ScanerViewe extends StatefulWidget {
   const ScanerViewe({Key? key}) : super(key: key);
@@ -37,7 +38,7 @@ class _ScanerVieweState extends State<ScanerViewe> {
           _buildQrView(context),
           Center(
               child: FloatingActionButton(
-            child: Text("Scan"),
+            child: const Text("Scan"),
             onPressed: () {
               _handleShowProductDetail(context);
             },
@@ -89,7 +90,7 @@ class _ScanerVieweState extends State<ScanerViewe> {
                     style: TextStyle(color: Colors.white, fontSize: 22),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 200.0,
                   height: 50.0,
                   //     child: Padding(
@@ -114,7 +115,7 @@ class _ScanerVieweState extends State<ScanerViewe> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    new FloatingActionButton(
+                    FloatingActionButton(
                       onPressed: () {
                         if (_separatudo(qr_data!) == 'i') {
                           _n++;
@@ -124,7 +125,7 @@ class _ScanerVieweState extends State<ScanerViewe> {
                         controller:
                         _controlarquant.text = _n.toString();
                       },
-                      child: new Icon(
+                      child: const Icon(
                         Icons.add,
                         color: Colors.black,
                       ),
@@ -134,11 +135,12 @@ class _ScanerVieweState extends State<ScanerViewe> {
                       width: 150.0,
                       child: TextField(
                         controller: _controlarquant,
-                        decoration: new InputDecoration(
+                        decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             labelStyle: TextStyle(color: Colors.white)),
                         keyboardType: TextInputType.number,
-                        style: TextStyle(color: Colors.white, fontSize: 42.0),
+                        style: const TextStyle(
+                            color: Colors.white, fontSize: 42.0),
                         textAlign: TextAlign.center,
                         textInputAction: TextInputAction.done,
                         onSubmitted: (ValueKey) {
@@ -146,7 +148,7 @@ class _ScanerVieweState extends State<ScanerViewe> {
                         },
                       ),
                     ),
-                    new FloatingActionButton(
+                    FloatingActionButton(
                       onPressed: () {
                         if (_separatudo(qr_data!) == 'i') {
                           _n--;
@@ -165,7 +167,7 @@ class _ScanerVieweState extends State<ScanerViewe> {
                   child: Text(
                     _separatudo(qr_data!),
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white, fontSize: 22),
+                    style: const TextStyle(color: Colors.white, fontSize: 22),
                   ),
                 ),
                 Padding(
@@ -230,6 +232,11 @@ class _ScanerVieweState extends State<ScanerViewe> {
 String _separatudo(String data) {
   final List<String> listalouca = data.split('@');
   String resultadolista = listalouca[2];
+  if (resultadolista == 'r') {
+    resultadolista = 'Metro(s)';
+  } else {
+    resultadolista = 'Unidade(s)';
+  }
   return resultadolista;
 }
 

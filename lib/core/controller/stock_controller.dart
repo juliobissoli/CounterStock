@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
+//import 'dart:js';
 import 'package:dio/dio.dart';
 
 import 'package:flutter/material.dart';
@@ -20,6 +21,26 @@ class StockController extends ChangeNotifier {
     } on DioError catch (e) {
       print(e.response);
       this.errorapi = 'Algo errado não esta certo';
+      if (this.errorapi != '') {
+        popdamorte(this.errorapi);
+      }
     }
   }
+}
+
+void popdamorte(String errou) {
+  final snackBar = SnackBar(
+    content: Text(
+      errou,
+      textAlign: TextAlign.left,
+      style: TextStyle(color: Colors.black),
+    ),
+    action: SnackBarAction(
+      label: 'Dismiss',
+      onPressed: () {
+        // Some code to undo the change.
+      },
+    ),
+  );
+  //ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }

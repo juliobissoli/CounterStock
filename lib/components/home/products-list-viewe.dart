@@ -1,3 +1,4 @@
+import 'package:conter_stock_app/components/home/scaner_viewe.dart';
 import 'package:flutter/material.dart';
 import '../../core/controller/stock_controller.dart';
 
@@ -25,8 +26,8 @@ class _ProductListVieweState extends State<ProductListViewe> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
+            popdamorte('Testando', context);
             // Add your onPressed code here!
-            popdamorte(frase);
           },
           backgroundColor: Colors.green,
           child: const Icon(Icons.dehaze),

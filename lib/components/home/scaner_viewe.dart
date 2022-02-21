@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import '../utils/modal.dart';
 import '../../core/controller/stock_controller.dart';
+import 'package:dio/dio.dart';
 //import '../../pages/login-page.dart';
 
 class ScanerViewe extends StatefulWidget {
@@ -17,14 +18,17 @@ class ScanerViewe extends StatefulWidget {
 class _ScanerVieweState extends State<ScanerViewe> {
   StockController stock_controller = StockController();
   Barcode? result;
+  bool _loading = false;
   String? qr_data = '';
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   double _n = 1.0;
   TextEditingController _controlarquant = TextEditingController();
   List<bool> mode_view = [true, false];
+  String errorapi = '';
   void initState() {
-    this._controlarquant.text = _n.toString();
+    int _n1 = _n.round();
+    this._controlarquant.text = _n1.toString();
   }
 
   // In order to get hot reload to work we need to pause the camera if the platform
@@ -37,12 +41,13 @@ class _ScanerVieweState extends State<ScanerViewe> {
         children: [
           _buildQrView(context),
           Center(
-              child: FloatingActionButton(
-            child: const Text("Scan"),
-            onPressed: () {
-              _handleShowProductDetail(context);
-            },
-          )),
+              //   child: FloatingActionButton(
+              // child: const Text("Scan"),
+              // onPressed: () {
+              //   _handleShowProductDetail(context);
+              // },
+              // ),
+              ),
         ],
       ),
     );
@@ -87,7 +92,7 @@ class _ScanerVieweState extends State<ScanerViewe> {
                     //qr_data ?? '',
                     _separanome(qr_data!),
                     textAlign: TextAlign.left,
-                    style: TextStyle(color: Colors.white, fontSize: 22),
+                    style: const TextStyle(color: Colors.white, fontSize: 22),
                   ),
                 ),
                 const SizedBox(
@@ -117,13 +122,14 @@ class _ScanerVieweState extends State<ScanerViewe> {
                   children: [
                     FloatingActionButton(
                       onPressed: () {
-                        if (_separatudo(qr_data!) == 'i') {
-                          _n++;
-                        } else {
+                        if (_separatudo(qr_data!) == 'Metro(s)') {
                           _n += 0.1;
+                        } else {
+                          _n++;
                         }
                         controller:
-                        _controlarquant.text = _n.toString();
+                        _controlarquant.text = _hanbleshowtextscreen(
+                            _n, qr_data!); //_n.toString();
                       },
                       child: const Icon(
                         Icons.add,
@@ -150,12 +156,13 @@ class _ScanerVieweState extends State<ScanerViewe> {
                     ),
                     FloatingActionButton(
                       onPressed: () {
-                        if (_separatudo(qr_data!) == 'i') {
-                          _n--;
-                        } else {
+                        if (_separatudo(qr_data!) == 'Metro(s)') {
                           _n -= 0.1;
+                        } else {
+                          _n--;
                         }
-                        _controlarquant.text = _n.toString();
+                        _controlarquant.text = _hanbleshowtextscreen(
+                            _n, qr_data!); //_n.toString();
                       },
                       child: new Icon(Icons.remove, color: Colors.black),
                       backgroundColor: Colors.white,
@@ -173,13 +180,27 @@ class _ScanerVieweState extends State<ScanerViewe> {
                 Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: BtnDefault(
+                      is_loading: _loading,
                       mode: 'light',
                       func: () async {
-                        var res = await this
-                            .stock_controller
-                            .handleChangeQuantity(_n, qr_data!);
+                        setState(() {
+                          this._loading = true;
+                        });
+                        try {
+                          var res = await this
+                              .stock_controller
+                              .handleChangeQuantity(_n, qr_data!);
+                          popdavida(context);
+                          this.result = null;
+                        } on DioError catch (e) {
+                          this.errorapi = 'Algo de errado não esta certo';
+                          popdamorte(this.errorapi, context);
+                        }
 
                         Navigator.pop(context);
+                        setState(() {
+                          this._loading = false;
+                        });
                       },
                       label: 'Atualizar',
                     )
@@ -244,4 +265,52 @@ String _separanome(String data) {
   final List<String> listalouca = data.split('@');
   String resultadolista = listalouca[1];
   return resultadolista;
+}
+
+void popdamorte(String errou, BuildContext context) {
+  final snackBar = SnackBar(
+    content: Text(
+      errou,
+      textAlign: TextAlign.left,
+      style: const TextStyle(color: Colors.orange),
+    ),
+    action: SnackBarAction(
+      label: 'Dismiss',
+      onPressed: () {
+        // Some code to undo the change.
+      },
+    ),
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  //ScaffoldMessenger.of(context).showSnackBar(snackBar);
+}
+
+String _hanbleshowtextscreen(double numerote, String data) {
+  String nemo = '';
+  int numero;
+
+  if (_separatudo(data) == 'Metro(s)') {
+    nemo = numerote.toString();
+  } else {
+    numero = numerote.round();
+    nemo = numero.toString();
+  }
+  return nemo;
+}
+
+void popdavida(BuildContext context) {
+  final snackBar = SnackBar(
+    content: Text(
+      'Produto atualizado com sucesso',
+      textAlign: TextAlign.left,
+      style: const TextStyle(color: Colors.orange),
+    ),
+    action: SnackBarAction(
+      label: 'Dismiss',
+      onPressed: () {
+        // Some code to undo the change.
+      },
+    ),
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }

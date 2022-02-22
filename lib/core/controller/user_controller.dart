@@ -33,11 +33,11 @@ class UserController with ChangeNotifier {
 
     is_logged = data_local.getBool("@is_logged") ?? false;
     username = data_local.getString("@username") ?? "";
-    user_id = data_local.getInt("@user_id") ?? -1;
-    email = data_local.getString("@email") ?? "";
-    token = data_local.getString("@token") ?? "";
-    company_id = data_local.getInt("@company_id") ?? 0;
-    contracted_product = data_local.getInt("@contracted_product") ?? 0;
+    // user_id = data_local.getInt("@user_id") ?? -1;
+    // email = data_local.getString("@email") ?? "";
+    // token = data_local.getString("@token") ?? "";
+    // company_id = data_local.getInt("@company_id") ?? 0;
+    // contracted_product = data_local.getInt("@contracted_product") ?? 0;
 
     // api.setAuthToken(token);
 
@@ -48,51 +48,52 @@ class UserController with ChangeNotifier {
     final data_local = await SharedPreferences.getInstance();
     data_local.setBool("@is_logged", false);
     data_local.setString("@username", "");
-    data_local.setString("@email", "");
-    data_local.setString("@token", "");
-    data_local.setInt("@company_id", -1);
-    data_local.setInt("@contracted_product", 0);
+    // data_local.setString("@email", "");
+    // data_local.setString("@token", "");
+    // data_local.setInt("@company_id", -1);
+    // data_local.setInt("@contracted_product", 0);
   }
 
-  // Future login(String email, String password) async {
-  //   try {
-  //     final res = await api.loginApi(email: email, password: password);
-  //     if (res.statusCode == 200) {
-  //       final session = res.data['session'];
-  //       final user = res.data['user'];
-  //       final company = res.data['company'];
-  //       api.setAuthToken(session['token']);
-  //       // this.setLocalState(true, user['username'], user['id'] ,user['email'], session['token'], user['company_id']);
-  //       this.setLocalState(true, session['token'], user, company);
-  //       print("Login success");
+  Future login(String user, String password) async {
+    this.setLocalState(true, user);
 
-  //       return true;
-  //     } else {
-  //       this.error_login = res;
-  //       print("Erro no login");
-  //       return false;
-  //     }
-  //   } on DioError catch (e) {
-  //     print('Deu erro ${e.response}');
-  //     this.error_login = e.response;
-  //     print("Erro => $e");
-  //     return false;
-  //   }
-  // }
+    // try {
+    //   final res = await api.loginApi(email: email, password: password);
+    //   if (res.statusCode == 200) {
+    //     final session = res.data['session'];
+    //     final user = res.data['user'];
+    //     final company = res.data['company'];
+    //     api.setAuthToken(session['token']);
+    //     // this.setLocalState(true, user['username'], user['id'] ,user['email'], session['token'], user['company_id']);
+    //     this.setLocalState(true, user);
+    //     print("Login success");
+
+    //     return true;
+    //   } else {
+    //     this.error_login = res;
+    //     print("Erro no login");
+    //     return false;
+    //   }
+    // } on DioError catch (e) {
+    //   print('Deu erro ${e.response}');
+    //   this.error_login = e.response;
+    //   print("Erro => $e");
+    //   return false;
+    // }
+  }
 
   // setLocalState(bool is_logged, String username, int user_id, String email, String token, int company_id) async {
-  setLocalState(
-      bool is_logged, String token, dynamic user, dynamic company) async {
+  setLocalState(bool is_logged, String user) async {
     final data_local = await SharedPreferences.getInstance();
 
     data_local.setBool("@is_logged", is_logged);
-    data_local.setString("@token", token);
-    data_local.setString("@username", user['username']);
-    data_local.setInt("@user_id", user['id']);
-    data_local.setInt("@company_id", user['company_id']);
-    data_local.setString("@email", user['email']);
-    data_local.setInt(
-        "@contracted_product", int.parse(company['contracted_product']));
+    // data_local.setString("@token", token);
+    data_local.setString("@username", user);
+    // data_local.setInt("@user_id", user['id']);
+    // data_local.setInt("@company_id", user['company_id']);
+    // data_local.setString("@email", user['email']);
+    // data_local.setInt(
+    //     "@contracted_product", int.parse(company['contracted_product']));
     // api_get
   }
 
@@ -101,39 +102,39 @@ class UserController with ChangeNotifier {
     await this.getDataLocal();
   }
 
-  String getNameWelcome() {
-    if (username == "")
-      return "";
-    else {
-      var str_split = username.split(" ");
-      var last_leter =
-          str_split.length > 1 ? str_split[str_split.length - 1] : null;
+  // String getNameWelcome() {
+  //   if (username == "")
+  //     return "";
+  //   else {
+  //     var str_split = username.split(" ");
+  //     var last_leter =
+  //         str_split.length > 1 ? str_split[str_split.length - 1] : null;
 
-      return "${str_split[0]} " +
-          (last_leter != null ? last_leter[0] + '.' : '');
-    }
-  }
+  //     return "${str_split[0]} " +
+  //         (last_leter != null ? last_leter[0] + '.' : '');
+  //   }
+  // }
 
   Future<bool> isLogeed() async {
     final data_local = await SharedPreferences.getInstance();
 
     is_logged = data_local.getBool("@is_logged") ?? false;
     user_id = data_local.getInt("@user_id") ?? -1;
-    token = data_local.getString("@token") ?? "";
-    company_id = data_local.getInt("@company_id") ?? -1;
+    // token = data_local.getString("@token") ?? "";
+    // company_id = data_local.getInt("@company_id") ?? -1;
 
-    if (is_logged && user_id != -1 && company_id != -1 && token != '') {
-      print("Validate Company");
-      final company_validate = await this.validateCompany();
-      print("Validate Company result => ${company_validate}");
+    // if (is_logged) {
+    //   print("Validate Company");
+    //   final company_validate = await this.validateCompany();
+    //   print("Validate Company result => ${company_validate}");
 
-      if (!company_validate) {
-        this.logout();
-        return false;
-      }
-      return true;
-    }
-    return false;
+    //   if (!company_validate) {
+    //     this.logout();
+    //     return false;
+    //   }
+    //   return true;
+    // }
+    return is_logged;
   }
 
   validateCompany() async {

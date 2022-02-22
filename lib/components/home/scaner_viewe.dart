@@ -195,6 +195,7 @@ class _ScanerVieweState extends State<ScanerViewe> {
                         } on DioError catch (e) {
                           this.errorapi = 'Algo de errado não esta certo';
                           popdamorte(this.errorapi, context);
+                          this.result = null;
                         }
 
                         Navigator.pop(context);
@@ -290,7 +291,7 @@ String _hanbleshowtextscreen(double numerote, String data) {
   int numero;
 
   if (_separatudo(data) == 'Metro(s)') {
-    nemo = numerote.toString();
+    nemo = numerote.toStringAsFixed(2);
   } else {
     numero = numerote.round();
     nemo = numero.toString();
@@ -300,10 +301,10 @@ String _hanbleshowtextscreen(double numerote, String data) {
 
 void popdavida(BuildContext context) {
   final snackBar = SnackBar(
-    content: Text(
+    content: const Text(
       'Produto atualizado com sucesso',
       textAlign: TextAlign.left,
-      style: const TextStyle(color: Colors.orange),
+      style: TextStyle(color: Colors.orange),
     ),
     action: SnackBarAction(
       label: 'Dismiss',

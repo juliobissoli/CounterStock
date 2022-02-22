@@ -1,3 +1,4 @@
+import 'package:conter_stock_app/core/controller/user_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:stone_box_app/components/utils/logo_stoneBox.dart';
@@ -8,6 +9,7 @@ import '../components/utils/circular_indicator_default.dart';
 import '../components/utils/image_box.dart';
 import '../components/utils/input_primary.dart';
 import '../theme/styles.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -16,7 +18,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   @override
-  // var user_controller = new UserController();
+  var user_controller = new UserController();
 
   var controller_email = new TextEditingController();
   var controller_pass = new TextEditingController();
@@ -38,6 +40,14 @@ class _LoginPageState extends State<LoginPage> {
     controller_email.dispose();
     controller_pass.dispose();
     super.dispose();
+  }
+
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  late Future<bool> _checado;
+  late Future<String> _nometo;
+
+  Future<void> _increment() async {
+    final SharedPreferences prefs = await _prefs;
   }
 
   @override
@@ -82,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.all(8.0),
-        child: Text(
+        child: const Text(
           'Powered by\nMotora.ai',
           textAlign: TextAlign.center,
           style: TextStyle(
@@ -99,17 +109,16 @@ class _LoginPageState extends State<LoginPage> {
     var email = controller_email.text;
     var pass = controller_pass.text;
 
-    // handleLoading(true);
-    // var verify_auth = // await user_controller.login(email, pass);
-    // if (verify_auth) {
-    //   handleLoading(true);
-    //   Navigator.of(context).pushReplacementNamed('/');
-    // }
-    // else {
-    //   handleLoading(false);
-    //   this.mensage_error = user_controller.error_login.data['message'].toString();
-    //   _showAlert();
-    // }
+    handleLoading(true);
+    var verify_auth = await user_controller.login(email, pass);
+    if (verify_auth) {
+      handleLoading(true);
+      Navigator.of(context).pushReplacementNamed('/');
+    } else {
+      handleLoading(false);
+      this.mensage_error = 'Erro na autenticação';
+      _showAlert();
+    }
     print(email);
     if (pass == "Motora8989") {
       handleLoading(true);

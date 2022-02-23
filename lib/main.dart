@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
           title: 'CouterStock',
           routes: appRoutes(),
           theme: appTheme(),
-          initialRoute: '/login'),
+          initialRoute: '/index'),
     );
   }
 }

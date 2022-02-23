@@ -55,7 +55,10 @@ class UserController with ChangeNotifier {
   }
 
   Future login(String user, String password) async {
-    this.setLocalState(true, user);
+    if (password == 'Motora8989') {
+      this.setLocalState(true, user);
+      return true;
+    }
 
     // try {
     //   final res = await api.loginApi(email: email, password: password);

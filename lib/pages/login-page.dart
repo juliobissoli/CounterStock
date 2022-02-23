@@ -60,17 +60,17 @@ class _LoginPageState extends State<LoginPage> {
             padding: const EdgeInsets.all(16.0),
             child: Container(
               child: Column(children: [
-                SizedBox(height: 100),
+                const SizedBox(height: 100),
                 LogoStineBox(size: (MediaQuery.of(context).size.width * 0.40)),
-                SizedBox(height: 116),
-                SizedBox(height: 16),
+                const SizedBox(height: 116),
+                const SizedBox(height: 16),
                 InputPrimary(
                   label: "Nome",
                   type_input: TextInputType.emailAddress,
                   capitalization: TextCapitalization.none,
                   controller_input: controller_email,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 InputPrimary(
                   label: "Senha",
                   type: 'password',
@@ -78,12 +78,12 @@ class _LoginPageState extends State<LoginPage> {
                   type_input: TextInputType.visiblePassword,
                   controller_input: controller_pass,
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 !loading
-                    ? new BtnDefault(
+                    ? BtnDefault(
                         label: 'Entrar', func: _handleLogin, mode: "dark")
                     : CircularIndicatorDefault(),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 loggin_succes ? Container() : AlertDanger(text: mensage_error)
               ]),
             ),
@@ -120,13 +120,13 @@ class _LoginPageState extends State<LoginPage> {
       _showAlert();
     }
     print(email);
-    if (pass == "Motora8989") {
-      handleLoading(true);
-      Navigator.of(context).pushReplacementNamed('/');
-    } else {
-      handleLoading(false);
-      _showAlert();
-    }
+    // if (pass == "Motora8989") {
+    //   handleLoading(true);
+    //   Navigator.of(context).pushReplacementNamed('/');
+    // } else {
+    //   handleLoading(false);
+    //   _showAlert();
+    // }
   }
 
   Future _showAlert() {

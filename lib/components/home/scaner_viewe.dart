@@ -43,13 +43,13 @@ class _ScanerVieweState extends State<ScanerViewe> {
         children: [
           _buildQrView(context),
           Center(
-                child: FloatingActionButton(
+            child: FloatingActionButton(
               child: const Text("Scan"),
               onPressed: () {
                 _handleShowProductDetail(context);
               },
-              ),
-              ),
+            ),
+          ),
         ],
       ),
     );
@@ -82,13 +82,12 @@ class _ScanerVieweState extends State<ScanerViewe> {
       context: context,
       backgroundColor: Colors.transparent,
       builder: (BuildContext builder) {
-        return
-         Modal(
+        return Modal(
             size_height: 350.0,
             show_top: false,
-            child: QuantityModal(qr_data: qr_data, stock_controller: this.stock_controller) 
-          );
-        },
+            child: QuantityModal(
+                qr_data: qr_data, stock_controller: this.stock_controller));
+      },
     );
   }
 

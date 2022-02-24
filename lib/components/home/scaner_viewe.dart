@@ -1,3 +1,5 @@
+// import 'package:conter_stock_app/components/scan_viewe/quantity_modal.dart';
+import 'package:conter_stock_app/components/scan_viewe/malda-quantity.dart';
 import 'package:flutter/material.dart';
 import '../utils/btn_default.dart';
 import 'dart:io';
@@ -41,12 +43,12 @@ class _ScanerVieweState extends State<ScanerViewe> {
         children: [
           _buildQrView(context),
           Center(
-              //   child: FloatingActionButton(
-              // child: const Text("Scan"),
-              // onPressed: () {
-              //   _handleShowProductDetail(context);
-              // },
-              // ),
+                child: FloatingActionButton(
+              child: const Text("Scan"),
+              onPressed: () {
+                _handleShowProductDetail(context);
+              },
+              ),
               ),
         ],
       ),
@@ -75,148 +77,18 @@ class _ScanerVieweState extends State<ScanerViewe> {
   }
 
   void _handleShowProductDetail(BuildContext context) {
-    print("-============ CLICO ++++++++++++");
     showModalBottomSheet<void>(
       isScrollControlled: true,
       context: context,
       backgroundColor: Colors.transparent,
       builder: (BuildContext builder) {
-        return Modal(
+        return
+         Modal(
             size_height: 350.0,
             show_top: false,
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    //qr_data ?? '',
-                    _separanome(qr_data!),
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(color: Colors.white, fontSize: 22),
-                  ),
-                ),
-                const SizedBox(
-                  width: 200.0,
-                  height: 50.0,
-                  //     child: Padding(
-                  //       padding: const EdgeInsets.all(8.0),
-                  //     child: ToggleButtons(
-                  //     children: <Widget>[
-                  //       Icon(Icons.ac_unit),
-                  //       Icon(Icons.call),
-                  //       Icon(Icons.cake),
-                  //     ],
-                  //     onPressed: (int index) {
-                  //       setState(() {
-                  //         if(index == 0) mode_view = [true, false];
-                  //         else mode_view = [true, false];
-                  //         // mode_view[index] = !mode_view[index];
-                  //       });
-                  //     },
-                  //     isSelected: mode_view,
-                  // ),
-                  //     ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    FloatingActionButton(
-                      onPressed: () {
-                        if (_separatudo(qr_data!) == 'Metro(s)') {
-                          _n += 0.1;
-                        } else {
-                          _n++;
-                        }
-                        controller:
-                        _controlarquant.text = _hanbleshowtextscreen(
-                            _n, qr_data!); //_n.toString();
-                      },
-                      child: const Icon(
-                        Icons.add,
-                        color: Colors.black,
-                      ),
-                      backgroundColor: Colors.white,
-                    ),
-                    SizedBox(
-                      width: 150.0,
-                      child: TextField(
-                        controller: _controlarquant,
-                        decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelStyle: TextStyle(color: Colors.white)),
-                        keyboardType: TextInputType.number,
-                        style: const TextStyle(
-                            color: Colors.white, fontSize: 42.0),
-                        textAlign: TextAlign.center,
-                        textInputAction: TextInputAction.done,
-                        onSubmitted: (ValueKey) {
-                          _n = double.parse(_controlarquant.text);
-                        },
-                      ),
-                    ),
-                    FloatingActionButton(
-                      onPressed: () {
-                        if (_separatudo(qr_data!) == 'Metro(s)') {
-                          _n -= 0.1;
-                        } else {
-                          _n--;
-                        }
-                        _controlarquant.text = _hanbleshowtextscreen(
-                            _n, qr_data!); //_n.toString();
-                      },
-                      child: new Icon(Icons.remove, color: Colors.black),
-                      backgroundColor: Colors.white,
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    _separatudo(qr_data!),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(color: Colors.white, fontSize: 22),
-                  ),
-                ),
-                Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: BtnDefault(
-                      is_loading: _loading,
-                      mode: 'light',
-                      func: () async {
-                        setState(() {
-                          this._loading = true;
-                        });
-                        try {
-                          var res = await this
-                              .stock_controller
-                              .handleChangeQuantity(_n, qr_data!);
-                          popdavida(context);
-                          this.result = null;
-                        } on DioError catch (e) {
-                          this.errorapi = 'Algo de errado não esta certo';
-                          popdamorte(this.errorapi, context);
-                          this.result = null;
-                        }
-
-                        Navigator.pop(context);
-                        setState(() {
-                          this._loading = false;
-                        });
-                      },
-                      label: 'Atualizar',
-                    )
-
-                    // childe: ElevatedButton(
-                    //   child: const Text('Atualizar'),
-                    //   onPressed: () {this
-                    //     .stock_controller
-                    //     .handleChangeQuantity(_n, qr_data!);
-                    // Navigator.pop(context);},
-                    // ),
-                    ),
-              ],
-            ));
-      },
+            child: QuantityModal(qr_data: qr_data, stock_controller: this.stock_controller) 
+          );
+        },
     );
   }
 

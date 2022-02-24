@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import './core/controller/stock_controller.dart';
+import './core/controller/user_controller.dart';
 
 import './router.dart';
 import './theme/styles.dart';
@@ -16,10 +17,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
+
       providers: [
-        ChangeNotifierProvider<StockController>(
-          create: (_) => StockController(),
-        ),
+        ChangeNotifierProvider<UserController>(create: (_) => UserController(),),
+        ChangeNotifierProvider<StockController>(create: (_) => StockController(),),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,

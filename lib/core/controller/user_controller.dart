@@ -54,11 +54,13 @@ class UserController with ChangeNotifier {
     // data_local.setInt("@contracted_product", 0);
   }
 
-  Future login(String user, String password) async {
+  Future<bool> login(String user, String password) async {
     if (password == 'Motora8989') {
-      this.setLocalState(true, user);
+     await this.setLocalState(true, user);
       return true;
     }
+    else return false;
+
 
     // try {
     //   final res = await api.loginApi(email: email, password: password);
@@ -86,7 +88,7 @@ class UserController with ChangeNotifier {
   }
 
   // setLocalState(bool is_logged, String username, int user_id, String email, String token, int company_id) async {
-  setLocalState(bool is_logged, String user) async {
+ Future setLocalState(bool is_logged, String user) async {
     final data_local = await SharedPreferences.getInstance();
 
     data_local.setBool("@is_logged", is_logged);

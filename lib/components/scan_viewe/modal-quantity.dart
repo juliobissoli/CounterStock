@@ -31,7 +31,14 @@ class _QuantityModalState extends State<QuantityModal> {
 
     widget.stock_controller.stateNotifier.addListener(() {
       // Seta a variavel de loading como true se a estao do comtroller fpr  igual a loading
-      setState(() {});
+      print(widget.stock_controller.state);
+      if (widget.stock_controller.state == ScannerState.error) {
+        return showPopUp(context, 'Algo deu errado');
+      } else {
+        return showPopUp(context, 'Produto atualizado');
+      }
+
+      //setState(() {});
     });
   }
 
@@ -101,8 +108,8 @@ class _QuantityModalState extends State<QuantityModal> {
         Padding(
             padding: const EdgeInsets.all(16.0),
             child: BtnDefault(
-              is_loading: _loading = widget.stock_controller.state == ScannerState.loading
-,
+              is_loading: _loading =
+                  widget.stock_controller.state == ScannerState.loading,
               mode: 'light',
               func: handleSubmit,
               label: 'Atualizar',
@@ -115,15 +122,7 @@ class _QuantityModalState extends State<QuantityModal> {
     // setState(() {
     //   this._loading = true;
     // });
-    try {
-      var res = await widget.stock_controller
-          .handleChangeQuantity(_n, widget.qr_data!);
-      showPopUp(context, "Deu certo");
-      this.result = null;
-    } catch (e) {
-      showPopUp(context, 'ta errado');
-      this.result = null;
-    }
+    widget.stock_controller.handleChangeQuantity(_n, widget.qr_data!);
 
     Navigator.pop(context);
     setState(() {
@@ -176,7 +175,7 @@ class _QuantityModalState extends State<QuantityModal> {
       content: Text(
         message,
         textAlign: TextAlign.left,
-        style: TextStyle(color: Colors.orange),
+        style: const TextStyle(color: Colors.orange),
       ),
       action: SnackBarAction(
         label: 'Dismiss',

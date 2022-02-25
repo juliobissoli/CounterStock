@@ -1,29 +1,42 @@
 import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
-//import 'dart:js';
+import 'package:conter_stock_app/state/scaner_state.dart';
 import 'package:dio/dio.dart';
 
 import 'package:flutter/material.dart';
 import '../../service/cs_api.dart';
 
 class StockController extends ChangeNotifier {
-  CsApai get api => CsApai.singleton;
+  CsApi get api => CsApi.singleton;
 
   List<String> product_list = [];
 
-  Future<Response<dynamic>> handleChangeQuantity(
+  String error_api = '';
+
+  final stateNotifier = ValueNotifier<ScannerState>(ScannerState.empty);
+
+  set state(ScannerState state) => stateNotifier.value = state;
+  ScannerState get state => stateNotifier.value;
+
+  handleChangeQuantity(
       double quantity, String message_qr) async {
     var data = {"quantity": quantity, 'message_qr': message_qr};
-    return api.put('products', data);
 
-    // try {
-    // } on DioError catch (e) {
-    //   print(e.response);
-    //   this.errorapi = 'Algo errado não esta certo';
-    //   if (this.errorapi != '') {
-    //     popdamorte(this.errorapi);
-    //   }
-    // }
+    state  = ScannerState.loading;
+
+    try {
+       await api.put('products', data);
+       state  = ScannerState.success;
+
+    } on DioError catch (e) {
+      print(e.response);
+      this.error_api = 'Algo errado não esta certo';
+       state  = ScannerState.error;
+
+      // if (this.error_api != '') {
+      //   popdamorte(this.error_api);
+      // }
+    }
   }
 }

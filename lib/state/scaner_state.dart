@@ -1,0 +1,1 @@
+enum ScannerState{success, loading, inputting ,error, empty}

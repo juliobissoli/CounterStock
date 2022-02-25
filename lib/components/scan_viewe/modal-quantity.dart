@@ -1,4 +1,5 @@
 import 'package:conter_stock_app/components/utils/btn_default.dart';
+import 'package:conter_stock_app/state/scaner_state.dart';
 import 'package:flutter/material.dart';
 
 import 'package:conter_stock_app/core/controller/stock_controller.dart';
@@ -27,6 +28,11 @@ class _QuantityModalState extends State<QuantityModal> {
   void initState() {
     int _n1 = _n.round();
     this._controllerQuant.text = _n1.toString();
+
+    widget.stock_controller.stateNotifier.addListener(() {
+      // Seta a variavel de loading como true se a estao do comtroller fpr  igual a loading
+      setState(() {});
+    });
   }
 
   @override
@@ -95,7 +101,8 @@ class _QuantityModalState extends State<QuantityModal> {
         Padding(
             padding: const EdgeInsets.all(16.0),
             child: BtnDefault(
-              is_loading: _loading,
+              is_loading: _loading = widget.stock_controller.state == ScannerState.loading
+,
               mode: 'light',
               func: handleSubmit,
               label: 'Atualizar',

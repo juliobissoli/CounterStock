@@ -1,5 +1,6 @@
 // import 'package:conter_stock_app/components/scan_viewe/quantity_modal.dart';
-import 'package:conter_stock_app/components/scan_viewe/malda-quantity.dart';
+import 'package:conter_stock_app/components/scan_viewe/modal-quantity.dart';
+import 'package:conter_stock_app/state/scaner_state.dart';
 import 'package:flutter/material.dart';
 import '../utils/btn_default.dart';
 import 'dart:io';
@@ -46,6 +47,7 @@ class _ScanerVieweState extends State<ScanerViewe> {
             child: FloatingActionButton(
               child: const Text("Scan"),
               onPressed: () {
+                qr_data = 'MI000111@NOME TESTE@r';
                 _handleShowProductDetail(context);
               },
             ),
@@ -96,7 +98,8 @@ class _ScanerVieweState extends State<ScanerViewe> {
       this.controller = controller;
     });
     controller.scannedDataStream.listen((scanData) {
-      if (result == null) {
+      if (stock_controller.state != ScannerState.inputting || stock_controller.state == ScannerState.loading) {
+        stock_controller.state = ScannerState.inputting;
         _handleShowProductDetail(context);
         setState(() {
           result = scanData;

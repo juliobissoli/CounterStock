@@ -2,10 +2,10 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-class CsApai {
-  static final CsApai _csApi = CsApai._internal();
-  CsApai._internal();
-  static CsApai get singleton => _csApi;
+class CsApi {
+  static final CsApi _csApi = CsApi._internal();
+  CsApi._internal();
+  static CsApi get singleton => _csApi;
 
   static String base_url = 'http://192.168.15.40:3000';
 

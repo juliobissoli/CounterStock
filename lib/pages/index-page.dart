@@ -24,20 +24,34 @@ class _IndexPageState extends State<IndexPage> {
           () async => await verifyAuthentication(user_controller, context));
     }
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: FutureBuilder(
-          future: _future,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            return Center(
-              child: Column(children: [
-                const SizedBox(height: 100),
+      backgroundColor: Colors.white,
+      body: FutureBuilder(
+        future: _future,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          return Center(
+            child:
                 LogoStineBox(size: (MediaQuery.of(context).size.width * 0.40)),
-                const SizedBox(height: 116),
-                const SizedBox(height: 16),
-              ]),
-            );
-          },
-        ));
+            // Column(children: [
+            //   const SizedBox(height: 100),
+            //   LogoStineBox(size: (MediaQuery.of(context).size.width * 0.40)),
+            //   const SizedBox(height: 116),
+            //   const SizedBox(height: 16),
+            // ]),
+          );
+        },
+      ),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.all(8.0),
+        child: const Text(
+          'Powered by\nMotora.ai',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 12,
+            color: Colors.grey,
+          ),
+        ),
+      ),
+    );
   }
 
   Future<void> verifyAuthentication(

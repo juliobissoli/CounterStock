@@ -1,11 +1,14 @@
 import 'package:conter_stock_app/components/utils/btn_default.dart';
 import 'package:conter_stock_app/state/scaner_state.dart';
+import 'package:conter_stock_app/theme/styles.dart';
 import 'package:flutter/material.dart';
 
 import 'package:conter_stock_app/core/controller/stock_controller.dart';
 import 'package:flutter/widgets.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import '../home/scaner_viewe.dart';
+// import 'package:flushbar/flushbar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class QuantityModal extends StatefulWidget {
   final String? qr_data;
@@ -33,13 +36,32 @@ class _QuantityModalState extends State<QuantityModal> {
       // Seta a variavel de loading como true se a estao do comtroller fpr  igual a loading
       print(widget.stock_controller.state);
       if (widget.stock_controller.state == ScannerState.error) {
-        return showPopUp(context, 'Algo deu errado');
-      } else {
-        return showPopUp(context, 'Produto atualizado');
+        showToats('Algo esta errado', false);
+        if (this.mounted) {
+          Navigator.pop(context);
+        }
+        // setState(() {});
+      } else if (widget.stock_controller.state == ScannerState.success) {
+        showToats('Produto atualizado', true);
+        if (this.mounted) {
+          Navigator.pop(context);
+        }
+        // setState(() {});
+      } else if (widget.stock_controller.state == ScannerState.loading) {
+        this._loading = true;
+      }
+      if (this.mounted) {
+        setState(() {});
       }
 
       //setState(() {});
     });
+  }
+
+  void dispose() {
+    print('morreuuuuuuuuuuuuuuuuuuuu');
+    widget.stock_controller.stateNotifier.removeListener(() {});
+    super.dispose();
   }
 
   @override
@@ -111,23 +133,25 @@ class _QuantityModalState extends State<QuantityModal> {
               is_loading: _loading =
                   widget.stock_controller.state == ScannerState.loading,
               mode: 'light',
-              func: handleSubmit,
+              func: () {
+                handleSubmit(context);
+              },
               label: 'Atualizar',
             )),
       ],
     );
   }
 
-  handleSubmit() async {
+  handleSubmit(BuildContext context) {
     // setState(() {
     //   this._loading = true;
     // });
     widget.stock_controller.handleChangeQuantity(_n, widget.qr_data!);
 
-    Navigator.pop(context);
-    setState(() {
-      this._loading = false;
-    });
+    // Navigator.pop(context);
+    // setState(() {
+    //   this._loading = false;
+    // });
   }
 
   handleCount(int sinal) {
@@ -170,7 +194,7 @@ class _QuantityModalState extends State<QuantityModal> {
     return resultadolista;
   }
 
-  void showPopUp(BuildContext context, String message) {
+  void showPopUp(context, String message) {
     final snackBar = SnackBar(
       content: Text(
         message,
@@ -186,4 +210,25 @@ class _QuantityModalState extends State<QuantityModal> {
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
+
+  void showToats(String text, bool success) {
+    Fluttertoast.showToast(
+      msg: text,
+      gravity: ToastGravity.SNACKBAR,
+      toastLength: Toast.LENGTH_LONG,
+      timeInSecForIosWeb: 3,
+      backgroundColor: success ? Colors.green : Colors.red,
+      textColor: Colors.white,
+      // fontSize: 14.0
+    );
+  }
+
+  // void showSimpleFlushbar(context, String mensagem) {
+  //   Flushbar(
+  //     message: mensagem,
+  //     duration: Duration(seconds: 30),
+  //     leftBarIndicatorColor: Colors.blue.shade300,
+  //     backgroundColor: Colors.red.shade300,
+  //   )..show(context);
+  // }
 }

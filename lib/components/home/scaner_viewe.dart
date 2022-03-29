@@ -43,15 +43,15 @@ class _ScanerVieweState extends State<ScanerViewe> {
       body: Stack(
         children: [
           _buildQrView(context),
-          Center(
-            child: FloatingActionButton(
-              child: const Text("Scan"),
-              onPressed: () {
-                qr_data = 'MI000111@NOME TESTE@r';
-                _handleShowProductDetail(context);
-              },
-            ),
-          ),
+          // Center(
+          //   child: FloatingActionButton(
+          //     child: const Text("Scan"),
+          //     onPressed: () {
+          //       qr_data = 'MI000111@NOME TESTE@r';
+          //       _handleShowProductDetail(context);
+          //     },
+          //   ),
+          // ),
         ],
       ),
     );
@@ -98,7 +98,8 @@ class _ScanerVieweState extends State<ScanerViewe> {
       this.controller = controller;
     });
     controller.scannedDataStream.listen((scanData) {
-      if (stock_controller.state != ScannerState.inputting || stock_controller.state == ScannerState.loading) {
+      if (stock_controller.state != ScannerState.inputting ||
+          stock_controller.state == ScannerState.loading) {
         stock_controller.state = ScannerState.inputting;
         _handleShowProductDetail(context);
         setState(() {

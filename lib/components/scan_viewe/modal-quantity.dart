@@ -59,7 +59,6 @@ class _QuantityModalState extends State<QuantityModal> {
   }
 
   void dispose() {
-    print('morreuuuuuuuuuuuuuuuuuuuu');
     widget.stock_controller.stateNotifier.removeListener(() {});
     super.dispose();
   }

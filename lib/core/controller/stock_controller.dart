@@ -48,7 +48,7 @@ class StockController extends ChangeNotifier {
     } on DioError catch (e) {
       print(e.response);
       this.error_api = 'Algo errado não esta certo';
-      state = ScannerState.error;
+      // state = ScannerState.error;
 
       // if (this.error_api != '') {
       //   popdamorte(this.error_api);

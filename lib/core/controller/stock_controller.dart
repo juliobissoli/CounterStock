@@ -37,4 +37,22 @@ class StockController extends ChangeNotifier {
       // }
     }
   }
+
+  getQuantity(String code) async {
+    //state = ScannerState.loading;
+
+    try {
+      final res = await api.api_get('products/' + code, null);
+      print(res);
+      // state = ScannerState.success;
+    } on DioError catch (e) {
+      print(e.response);
+      this.error_api = 'Algo errado não esta certo';
+      state = ScannerState.error;
+
+      // if (this.error_api != '') {
+      //   popdamorte(this.error_api);
+      // }
+    }
+  }
 }

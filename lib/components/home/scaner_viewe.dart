@@ -93,6 +93,16 @@ class _ScanerVieweState extends State<ScanerViewe> {
     );
   }
 
+  String separacodigo(String? data) {
+    if (data != null) {
+      final List<String> listalouca = data.split('@');
+      String resultadolista = listalouca[0];
+      return resultadolista;
+    } else {
+      return '';
+    }
+  }
+
   void _onQRViewCreated(QRViewController controller) {
     setState(() {
       this.controller = controller;
@@ -101,6 +111,7 @@ class _ScanerVieweState extends State<ScanerViewe> {
       if (stock_controller.state != ScannerState.inputting ||
           stock_controller.state == ScannerState.loading) {
         stock_controller.state = ScannerState.inputting;
+        stock_controller.getQuantity(separacodigo(scanData?.code));
         _handleShowProductDetail(context);
         setState(() {
           result = scanData;

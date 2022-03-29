@@ -1,4 +1,5 @@
 import 'package:conter_stock_app/components/utils/btn_default.dart';
+import 'package:conter_stock_app/components/utils/circular_indicator_default.dart';
 import 'package:conter_stock_app/state/scaner_state.dart';
 import 'package:conter_stock_app/theme/styles.dart';
 import 'package:flutter/material.dart';
@@ -68,17 +69,45 @@ class _QuantityModalState extends State<QuantityModal> {
     return Column(
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(vertical: 16),
           child: Text(
             //qr_data ?? '',
             separanome(widget.qr_data!),
             textAlign: TextAlign.left,
-            style: const TextStyle(color: Colors.white, fontSize: 22),
+            style: const TextStyle(color: Colors.white, fontSize: 24),
           ),
         ),
         const SizedBox(
-          width: 200.0,
-          height: 50.0,
+          height: 16.0,
+        ),
+        Padding(
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              children: [
+                widget.stock_controller.state == ScannerState.quantityChecking
+                    ? SizedBox(
+                        height: 58,
+                        width: 58,
+                        child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: CircularIndicatorDefault()))
+                    : Text(
+                        widget.stock_controller.quantity_projetc.toString(),
+                        textAlign: TextAlign.left,
+                        style:
+                            const TextStyle(color: Colors.blue, fontSize: 52),
+                      ),
+                Text(
+                  widget.stock_controller.state == ScannerState.quantityChecking
+                      ? 'Lendo quantidade ...'
+                      : 'Em estoque',
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(color: Colors.grey, fontSize: 16),
+                )
+              ],
+            )),
+        SizedBox(
+          height: 32,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -95,13 +124,16 @@ class _QuantityModalState extends State<QuantityModal> {
             ),
             SizedBox(
               width: 150.0,
+              height: 52,
               child: TextField(
                 controller: _controllerQuant,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(),
+                    fillColor: Colors.white,
+                    // filled: true,
                     labelStyle: TextStyle(color: Colors.white)),
                 keyboardType: TextInputType.number,
-                style: const TextStyle(color: Colors.white, fontSize: 42.0),
+                style: const TextStyle(color: Colors.white, fontSize: 32.0),
                 textAlign: TextAlign.center,
                 textInputAction: TextInputAction.done,
                 onSubmitted: (ValueKey) {
@@ -113,7 +145,7 @@ class _QuantityModalState extends State<QuantityModal> {
               onPressed: () {
                 handleCount(-1);
               },
-              child: const Icon(Icons.remove, color: Colors.black),
+              child: const Icon(Icons.remove, color: Colors.white),
               backgroundColor: Colors.white,
             ),
           ],
@@ -123,11 +155,11 @@ class _QuantityModalState extends State<QuantityModal> {
           child: Text(
             separatudo(widget.qr_data!),
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.white, fontSize: 22),
+            style: const TextStyle(color: Colors.grey, fontSize: 16),
           ),
         ),
         Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 62),
             child: BtnDefault(
               is_loading: _loading =
                   widget.stock_controller.state == ScannerState.loading,

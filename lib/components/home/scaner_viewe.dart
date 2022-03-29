@@ -43,15 +43,16 @@ class _ScanerVieweState extends State<ScanerViewe> {
       body: Stack(
         children: [
           _buildQrView(context),
-          // Center(
-          //   child: FloatingActionButton(
-          //     child: const Text("Scan"),
-          //     onPressed: () {
-          //       qr_data = 'MI000111@NOME TESTE@r';
-          //       _handleShowProductDetail(context);
-          //     },
-          //   ),
-          // ),
+          Center(
+            child: FloatingActionButton(
+              child: const Text("Scan"),
+              onPressed: () {
+                qr_data = 'IND000065@RaspBarry Pi 3 Model B@i';
+                _handleShowProductDetail(context);
+                stock_controller.getQuantity(separacodigo(qr_data));
+              },
+            ),
+          ),
         ],
       ),
     );
@@ -85,7 +86,7 @@ class _ScanerVieweState extends State<ScanerViewe> {
       backgroundColor: Colors.transparent,
       builder: (BuildContext builder) {
         return Modal(
-            size_height: 350.0,
+            size_height: 420.0,
             show_top: false,
             child: QuantityModal(
                 qr_data: qr_data, stock_controller: this.stock_controller));
@@ -111,7 +112,7 @@ class _ScanerVieweState extends State<ScanerViewe> {
       if (stock_controller.state != ScannerState.inputting ||
           stock_controller.state == ScannerState.loading) {
         stock_controller.state = ScannerState.inputting;
-        stock_controller.getQuantity(separacodigo(scanData?.code));
+        stock_controller.getQuantity(separacodigo(scanData.code));
         _handleShowProductDetail(context);
         setState(() {
           result = scanData;

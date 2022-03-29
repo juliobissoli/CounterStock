@@ -14,6 +14,8 @@ class StockController extends ChangeNotifier {
 
   String error_api = '';
 
+  int quantity_projetc = 0;
+
   final stateNotifier = ValueNotifier<ScannerState>(ScannerState.empty);
 
   set state(ScannerState state) => stateNotifier.value = state;
@@ -39,16 +41,17 @@ class StockController extends ChangeNotifier {
   }
 
   getQuantity(String code) async {
-    //state = ScannerState.loading;
-
+    state = ScannerState.quantityChecking;
     try {
       final res = await api.api_get('products/' + code, null);
-      print(res);
-      // state = ScannerState.success;
+      print(res.data['quantity']);
+
+      this.quantity_projetc = res.data['quantity'];
+      state = ScannerState.quantityChecked;
     } on DioError catch (e) {
       print(e.response);
       this.error_api = 'Algo errado não esta certo';
-      // state = ScannerState.error;
+      state = ScannerState.error;
 
       // if (this.error_api != '') {
       //   popdamorte(this.error_api);

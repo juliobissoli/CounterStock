@@ -7,10 +7,10 @@ class CsApi {
   CsApi._internal();
   static CsApi get singleton => _csApi;
 
-  //static String base_url = 'http://192.168.15.40:3000';
+  static String base_url = 'http://192.168.15.126:3000/cs';
   // static String base_url =
   //     'https://e8b7-2804-7f2-5a4-5fd5-6494-b022-5f14-aba4.ngrok.io';
-  static String base_url = 'https://dev.driveranalytics.com.br/cs';
+  // static String base_url = 'https://dev.driveranalytics.com.br/cs';
 
   String authToken = "";
   var rout = '';
@@ -21,7 +21,7 @@ class CsApi {
     this._dioInstance.options.headers["Authorization"] =
         "Bearer ${this.authToken}";
     this._dioInstance.options.headers['content-Type'] = 'application/json';
-
+    print('===== rota =====> ' + '$base_url/$rout');
     return this._dioInstance.get('$base_url/$rout', queryParameters: data);
   }
 

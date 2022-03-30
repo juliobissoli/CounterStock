@@ -47,7 +47,7 @@ class _ScanerVieweState extends State<ScanerViewe> {
             child: FloatingActionButton(
               child: const Text("Scan"),
               onPressed: () {
-                qr_data = 'IND000065@RaspBarry Pi 3 Model B@i';
+                qr_data = 'IND000065000@RaspBarry Pi 3 Model B@i';
                 _handleShowProductDetail(context);
                 stock_controller.getQuantity(separacodigo(qr_data));
               },
@@ -108,9 +108,13 @@ class _ScanerVieweState extends State<ScanerViewe> {
     setState(() {
       this.controller = controller;
     });
+    final state = stock_controller.state;
     controller.scannedDataStream.listen((scanData) {
-      if (stock_controller.state != ScannerState.inputting ||
-          stock_controller.state == ScannerState.loading) {
+      if (state != ScannerState.inputting ||
+          state == ScannerState.loading ||
+          state == ScannerState.quantityChecked ||
+          state == ScannerState.quantityChecking ||
+          state == ScannerState.quantityNotFound) {
         stock_controller.state = ScannerState.inputting;
         stock_controller.getQuantity(separacodigo(scanData.code));
         _handleShowProductDetail(context);

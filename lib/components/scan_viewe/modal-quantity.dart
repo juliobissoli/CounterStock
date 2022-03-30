@@ -81,31 +81,7 @@ class _QuantityModalState extends State<QuantityModal> {
           height: 16.0,
         ),
         Padding(
-            padding: const EdgeInsets.all(8),
-            child: Column(
-              children: [
-                widget.stock_controller.state == ScannerState.quantityChecking
-                    ? SizedBox(
-                        height: 58,
-                        width: 58,
-                        child: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: CircularIndicatorDefault()))
-                    : Text(
-                        widget.stock_controller.quantity_projetc.toString(),
-                        textAlign: TextAlign.left,
-                        style:
-                            const TextStyle(color: Colors.blue, fontSize: 52),
-                      ),
-                Text(
-                  widget.stock_controller.state == ScannerState.quantityChecking
-                      ? 'Lendo quantidade ...'
-                      : 'Em estoque',
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(color: Colors.grey, fontSize: 16),
-                )
-              ],
-            )),
+            padding: const EdgeInsets.all(8), child: handleShowQuantityStock()),
         SizedBox(
           height: 32,
         ),
@@ -114,12 +90,9 @@ class _QuantityModalState extends State<QuantityModal> {
           children: [
             FloatingActionButton(
               onPressed: () {
-                handleCount(1);
+                handleCount(-1);
               },
-              child: const Icon(
-                Icons.add,
-                color: Colors.black,
-              ),
+              child: const Icon(Icons.remove, color: Colors.black),
               backgroundColor: Colors.white,
             ),
             SizedBox(
@@ -143,9 +116,12 @@ class _QuantityModalState extends State<QuantityModal> {
             ),
             FloatingActionButton(
               onPressed: () {
-                handleCount(-1);
+                handleCount(1);
               },
-              child: const Icon(Icons.remove, color: Colors.white),
+              child: const Icon(
+                Icons.add,
+                color: Colors.black,
+              ),
               backgroundColor: Colors.white,
             ),
           ],
@@ -167,8 +143,58 @@ class _QuantityModalState extends State<QuantityModal> {
               func: () {
                 handleSubmit(context);
               },
-              label: 'Atualizar',
+              label:
+                  widget.stock_controller.state == ScannerState.quantityNotFound
+                      ? 'Cadastrar'
+                      : 'Atualizar',
             )),
+      ],
+    );
+  }
+
+  Widget handleShowQuantityStock() {
+    final state = widget.stock_controller.state;
+    String footer_str = 'Lendo quantidade ...';
+    switch (state) {
+      case ScannerState.quantityChecking:
+        {
+          footer_str = 'Lendo quantidade ...';
+        }
+        break;
+      case ScannerState.quantityNotFound:
+        {
+          footer_str = 'Não cadastrado';
+        }
+        break;
+      default:
+        {
+          footer_str = 'Em estoque';
+        }
+        break;
+    }
+    Widget pricipal_label = state == ScannerState.quantityNotFound
+        ? Icon(Icons.not_interested_rounded, color: Colors.white)
+        : Text(
+            widget.stock_controller.quantity_projetc.toString(),
+            textAlign: TextAlign.left,
+            style: const TextStyle(color: Colors.blue, fontSize: 52),
+          );
+
+    return Column(
+      children: [
+        state == ScannerState.quantityChecking
+            ? SizedBox(
+                height: 58,
+                width: 58,
+                child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: CircularIndicatorDefault()))
+            : pricipal_label,
+        Text(
+          footer_str,
+          textAlign: TextAlign.left,
+          style: const TextStyle(color: Colors.grey, fontSize: 16),
+        )
       ],
     );
   }

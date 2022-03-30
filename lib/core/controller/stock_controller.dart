@@ -44,14 +44,20 @@ class StockController extends ChangeNotifier {
     state = ScannerState.quantityChecking;
     try {
       final res = await api.api_get('products/' + code, null);
-      print(res.data['quantity']);
 
-      this.quantity_projetc = res.data['quantity'];
-      state = ScannerState.quantityChecked;
+      if (res.data != '') {
+        print(res.data['quantity']);
+        this.quantity_projetc = res.data['quantity'];
+        state = ScannerState.quantityChecked;
+      } else {
+        print('Não existe produto => ' + res.data);
+        this.quantity_projetc = 0;
+        state = ScannerState.quantityNotFound;
+      }
     } on DioError catch (e) {
       print(e.response);
-      this.error_api = 'Algo errado não esta certo';
-      state = ScannerState.error;
+      this.error_api = 'Quantidade não encontrada, verifique sua internet';
+      state = ScannerState.quantityNotFound;
 
       // if (this.error_api != '') {
       //   popdamorte(this.error_api);
